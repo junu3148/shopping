@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="product">
+	
+	<resultMap id="resultMapProductVO"
+		type="com.order.vo.ProductVO">
+		<result column="product_id" property="productId" />
+		<result column="product_name" property="productName" />
+		<result column="product_ea" property="productEA" />
+		<result column="price" property="price" />
+	</resultMap>
+
+	<!-- getProductList -->
+	<select id="selectProductList" resultMap="resultMapProductVO">
+    <![CDATA[
+        select  product_id,
+                product_name, 
+                product_ea,
+                price
+        from product
+        order by product_id desc
+    ]]>
+	</select>
+
+	<!-- searchProduct -->
+	<select id="searchProduct" parameterType="String"
+		resultMap="resultMapProductVO">
+    <![CDATA[
+        select  product_id,
+                product_name, 
+                product_ea,
+                price
+        from product
+        where product_name like '%${value}%' or product_id = #{value}
+        order by product_id desc
+    ]]>
+	</select>
+	
+	   <!-- 제품 ID로 검색 -->
+
+   <select id = "cartProductSearch" parameterType = "String" resultType = "ProductVO">
+    <![CDATA[
+     	 select product_id as productId
+        		,product_name as productName
+         		,product_ea as productEA
+         		,price
+      	 from product
+      	 where    product_id = #{value}
+      ]]>
+   </select>
+	
+
+	
+
+</mapper>

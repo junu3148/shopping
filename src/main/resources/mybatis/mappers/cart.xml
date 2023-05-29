@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="cart">
+
+	<!-- selectCartList -->
+	<select id="selectCartList" parameterType="CustomerVO" resultType="CartListVO">
+	<![CDATA[
+		select a.customer_id customerId, 
+		       a.sell_ea sellEa,
+		       b.product_id productId, 
+		       b.product_name productName,
+		       b.price price
+		from cart a join product b  
+	           on a.product_id = b.product_id 
+	           where customer_id = #{customerId}
+		
+	]]>
+	</select>
+	
+
+	<!-- insetCart -->
+	<insert id="insertCart" parameterType="CartVO">  
+    <![CDATA[
+       insert into cart(
+		       				customer_id,
+		                    product_id,
+		                   	sell_ea
+	                    )values(
+		                    #{customerId},
+		                    #{productId},
+		                    #{sellEa}       
+	                	)
+    ]]>
+	</insert>
+	
+	<!-- deleteCart -->
+	<delete id="deleteCart" parameterType="CartVO">  
+    <![CDATA[
+        delete cart 
+			   where customer_id = #{customerId}
+			      and product_id = #{productId}
+			      and sell_ea = #{sellEa}
+       
+    ]]>
+	</delete>
+	
+	
+		<!-- deleteCart -->
+	<delete id="deleteCartAll" parameterType="CustomerVO">  
+    <![CDATA[
+        delete cart 
+			   where customer_id = #{customerId}
+       
+    ]]>
+	</delete>
+	
+		<!-- getTotal -->
+	<select id="getTotal" parameterType="CustomerVO" resultType="int">
+	<![CDATA[
+		SELECT SUM(price)
+		FROM cart
+		JOIN product ON cart.product_id = product.product_id
+		WHERE customer_id =  #{customerId}
+	]]>
+	</select>
+	
+
+</mapper>

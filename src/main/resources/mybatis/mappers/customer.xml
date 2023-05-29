@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="customer">
+
+	
+	<!-- login -->
+	<select id="selectlogin" parameterType="CustomerVO"
+		resultType="CustomerVO">
+	<![CDATA[
+		select customer_id customerId		       
+		from customer
+		where customer_id = #{customerId} and customer_password = #{customerPassword}
+	
+	]]>
+	</select>
+
+	<!-- getCustomerList -->
+	<select id="selectCustomerList" resultType="CustomerVO">
+	<![CDATA[
+		select customer_id customerId,
+		       customer_password customerPassword,
+		       customer_name customerName,
+		       customer_numbers customerNumbers,
+		       code_type codeType
+		from customer
+	
+	]]>
+	</select>
+
+	<!-- getCustomer -->
+	<select id="selectCustomerOn" parameterType="CustomerVO"
+		resultType="CustomerVO">
+	<![CDATA[
+		select customer_id customerId,
+		       customer_password customerPassword,
+		       customer_name customerName,
+		       customer_numbers customerNumbers,
+		       code_type codeType
+		from customer
+		where customer_id = #{customerId}
+	
+	]]>
+	</select>
+
+	<!-- insetCustomer -->
+	<insert id="insertCustomer" parameterType="CustomerVO">  
+    <![CDATA[
+       insert into customer(
+		       				customer_id,
+		                    customer_password,
+		                    customer_name,
+		                    customer_numbers,
+		                    code_type
+	                    )values(
+		                    #{customerId},
+		                    #{customerPassword},
+		                    #{customerName},
+		                    #{customerNumbers},
+		                    #{codeType}          
+	                	)
+    ]]>
+	</insert>
+
+	<!-- updateCustomer -->
+	<update id="updateCustomer" parameterType="CustomerVO">  
+    <![CDATA[
+        update customer set customer_password= #{customerPassword}, 
+                    customer_name= #{customerName},
+                    customer_numbers= #{customerNumbers},
+                    code_type= #{codeType}
+          where customer_id = #{customerId}
+       
+    ]]>
+	</update>
+
+	<!-- deleteCustomer -->
+	<delete id="deleteCustomer" parameterType="CustomerVO">  
+    <![CDATA[
+        delete customer where 
+        				customer_id =#{customerId}
+       
+    ]]>
+	</delete>
+
+
+
+</mapper>
